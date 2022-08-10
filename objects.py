@@ -35,7 +35,6 @@ class GoslingAgent(BaseAgent):
         self.kickoff_flag = False
 
     def get_ready(self, packet):
-        print('getting ready')
         # Preps all of the objects that will be updated during play
         field_info = self.get_field_info()
         for i in range(field_info.num_boosts):

@@ -1,6 +1,9 @@
 import math
 from objects import Vector3
 
+def get_runway(agent):
+    return abs(agent.me.location.y - agent.foe_goal.location.y) - abs(agent.ball.location.y - agent.foe_goal.location.y)
+
 #This file is for small utilities for math and movement
 
 def backsolve(target, car, time, gravity = 650):

@@ -418,6 +418,11 @@ class short_shot():
         else:
             eta = 1.5
 
+        if get_runway(agent) < 0:
+            agent.pop()
+            agent.push(retreat())
+            return
+
         #If we are approaching the ball from the wrong side the car will try to only hit the very edge of the ball
         left_vector = car_to_ball.cross((0,0,1))
         right_vector = car_to_ball.cross((0,0,-1))
@@ -437,3 +442,16 @@ class short_shot():
         if abs(angles[1]) < 0.05 and (eta < 0.45 or distance < 150):
             agent.pop()
             agent.push(flip(agent.me.local(car_to_ball)))
+
+class retreat():
+    # get back on our net's side of the ball
+    def __init__(self):
+        self.min_retreat_distance = 1000
+    def run(self,agent):
+        retreat_target = agent.friend_goal
+        local_target = agent.me.local(retreat_target.location - agent.me.location)
+        defaultPD(agent, local_target)
+        defaultThrottle(agent, 2300)
+
+        if get_runway(agent) - self.min_retreat_distance > 0:
+            agent.pop()
